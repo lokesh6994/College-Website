@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>St.Mary's group of institutions - Homepage</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* --- General Reset & Base Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background-color: white; 
+            display: flex;
+            flex-direction: column; /* Allows footer to stick to the bottom */
+            justify-content: flex-start;
+            align-items: center; 
+            min-height: 100vh;
+            padding-top: 80px; /* Space for the fixed header */
+        }
+
+        /* --- Footer Styles --- */
+        .site-footer {
+            width: 100%;
+            background-color: #4338CA; 
+            color: white;
+            padding: 40px 5%;
+            margin-top: auto; 
+        }
+
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto 30px auto;
+        }
+
+        .footer-section {
+            width: calc(25% - 20px); 
+            min-width: 200px; 
+            margin-bottom: 20px;
+        }
+
+        /* Branding/Logo Style */
+        .footer-logo {
+            width: 300px;
+            margin-bottom: 14px;
+        }
+
+        .tagline {
+            font-size: 14px;
+            color: #a8a29e; 
+            margin-bottom: 15px;
+        }
+
+        /* Headings for link columns */
+        .footer-section h4 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #FCD34D; 
+        }
+
+        /* Links List - Quick Links Animation */
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 8px;
+            position: relative; /* Essential for the ::before pseudo-element */
+        }
+
+        .footer-links li a {
+            color: #e5e5e5;
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.3s ease;
+            line-height: 1.5;
+            position: relative;
+            z-index: 2; /* Keep text above the ::before element */
+        }
+        
+        /* New: Slide-in underline effect */
+        .footer-links li::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #FCD34D;
+            transition: width 0.3s ease-out, opacity 0.3s ease;
+            opacity: 0.8;
+            z-index: 1; 
+        }
+
+        .footer-links li:hover::before {
+            width: 45%;
+        }
+
+        .footer-links a:hover {
+            color: #FCD34D;
+            /* Removed text-decoration: underline; for the new effect */
+        }
+
+        /* Contact Info Spacing (Requested Change) */
+        .footer-contact p {
+            color: #e5e5e5;
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.3s ease;
+            line-height: 1.5; 
+            /* Increased vertical spacing between lines */
+            margin-bottom: 12px; 
+        }
+
+        .footer-contact p i {
+            margin-right: 10px;
+            color: #FCD34D;
+        }
+
+        /* Social Media Icons (Requested Animation) */
+        .social-links a {
+            color: white;
+            font-size: 18px;
+            margin-right: 15px;
+            /* Added transform transition for the scale/rotate effect */
+            transition: color 0.3s ease, transform 0.3s ease-in-out; 
+        }
+
+        .social-links a:hover {
+            color: #FCD34D;
+            /* Scale up and slight rotation on hover */
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        /* Footer Bottom Section (Copyright/Legal) */
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .footer-bottom p {
+            margin-bottom: 5px;
+        }
+
+        .legal-links a {
+            color: #a8a29e;
+            text-decoration: none;
+            margin: 0 5px;
+            transition: color 0.3s ease;
+        }
+
+        .legal-links a:hover {
+            color: #fff;
+        }
+
+        /* --- Responsive Design --- */
+        
+        @media (max-width: 550px) {
+            /* Footer: switch to single column stacking */
+            .footer-section {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .footer-brand {
+                margin-bottom: 30px;
+            }
+            
+            .social-links {
+                text-align: center;
+            }
+            
+            /* Center contact information on mobile */
+            .footer-contact p {
+                justify-content: center;
+                display: flex;
+            }
+        }
+    </style>
+</head>
+    <footer class="site-footer">
+
+        <div class="footer-container">
+            <div class="footer-section footer-brand">
+                <img src="https://lh3.googleusercontent.com/d/1948UXpRMGGxai-y405X0df2oa7A5IYfG" alt="St.Mary's Group Logo" class="footer-logo">
+                <div class="social-links">
+                    <a href="https://www.facebook.com/smgoi.in" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://wa.me/919154844272" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://www.instagram.com/smgoi.in/" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Youtube"><i class="fab fa-youtube"></i></a> 
+                </div>
+            </div>
+
+            <div class="footer-section footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Affiliations</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Enquire now</a></li>
+                    <li><a href="#">Alumini</a></li>
+                    <li><a href="#">Gallery</a></li>
+                    <li><a href="#">Campus Calendar</a></li>
+                    <li><a href="#">Innovus Hub</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section footer-contact">
+                <h4>Contact Us</h4>
+                <p><i class="fas fa-map-marker-alt"></i> Deshmukhi Village, Hyderabad</p>
+                <p><i class="fas fa-envelope"></i> enquiry@stmarysgroup.com</p> 
+                <p><i class="fas fa-phone"></i> +91 90104 55590/91/92</p>
+                <p><i class="fas fa-admissions"></i>For Admissions: 91548 44272</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 St.Mary's Group of Institutions. All rights reserved.</p>
+            <div class="legal-links">
+                <a href="#">Privacy Policy</a> |
+                <a href="#">Terms of Use</a>
+            </div>
+        </div>
+    </footer>
+</html>
