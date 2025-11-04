@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Alumni Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Existing Global Styles (kept for context) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background-color: white; 
+            display: flex;
+            flex-direction: column; 
+            justify-content: flex-start;
+            align-items: center; 
+            min-height: 100vh;
+            padding-top: 80px; 
+        }
+
+        .main-header {
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            position: fixed; 
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 30px; 
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .logo a {
+            font-size: 24px; 
+            font-weight: bold;
+            color: #4338CA;
+            text-decoration: none;
+            margin-right: auto; 
+        }
+        
+        #menu-toggle {
+            display: none;
+        }
+
+        .alumni-banner {
+            background-color: #4338CA; 
+            color: #fff;
+            text-align: center;
+            padding: 40px 150px;
+            margin-bottom: 50px;
+            width: 100%;
+            font-size: 18px;
+        }
+
+        /* --- 3. Main Content Section Styling --- */
+        .content-container {
+            padding: 0 5%; /* Adjusted padding for better fit */
+            position: relative; 
+            max-width: 1200px;
+            margin: 0 auto; 
+            width: 100%;
+            padding-bottom: 50px; /* Add bottom padding */
+        }
+        
+        .section-title {
+            color: #4338CA;
+            font-size: 1.7em;
+            margin-top: 0;
+            font-weight: bold;
+            height: fit-content;
+            width: fit-content;
+            margin-bottom: 5px;
+        }
+
+        .intro-text {
+            line-height: 1.4;
+            margin-bottom: 15px;
+            font-size: 17px;
+        }
+
+        .alumnus-item {
+            display: flex; 
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            list-style-type: none;
+        }
+
+        .alumnus-item ul {
+             list-style-type: none; 
+             padding-left: 0;
+        }
+        .alumnus-item ul li{
+             list-style-type: none; 
+             font-size: 16px;
+             line-height: 1.6;
+             margin-bottom: 10px;
+             position: relative;
+             padding-left: 25px; 
+        }
+        .alumnus-item ul li::before {
+            content: "\2713"; 
+            color: #4338CA; 
+            font-weight: bold;
+            display: inline-block; 
+            width: 1em;
+            margin-left: -25px; 
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .fade-in-left-hidden {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        .fade-in-left-visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide-up-hidden {
+            opacity: 0;
+            transform: translateY(30px); 
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .slide-up-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .navbar {
+            background: #fff;
+            border-radius: 50px;
+            padding: 10px 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+            transition: all 0.3s ease;
+            margin-left: 20px; 
+        }
+
+        .navbar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex; 
+            align-items: center;
+        }
+
+        .navbar ul li {
+            list-style: none;
+            padding: 0;
+            margin: 0 15px; 
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+        }
+
+        .navbar ul li a {
+            text-decoration: none; 
+            color: black; 
+            font-weight: 500;
+            font-size: 15px;
+            display: block;
+            padding: 5px 0;
+            transition: color 0.3s ease;
+            white-space: nowrap; 
+        }
+        
+        .navbar ul li:hover a {
+            color: #FCD34D;
+        }
+
+        /* Slide-in Effect (Bubble/Background) */
+        .navbar ul li::after {
+            content: '';
+            display: block;
+            height: 100%;
+            width: 100%;
+            border-radius: 70px;
+            background: #4338CA;
+            position: absolute;
+            top: 100%; 
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            opacity: 0;
+            transition: top 0.5s, opacity 0.5s, width 0.5s, height 0.5s;
+        }
+
+        .navbar ul li:hover::after {
+            top: 50%;
+            width: 135%; 
+            height: 135%;
+            opacity: 1;
+        }
+
+        /* Hamburger Icon/Label */
+        .hamburger-icon {
+            display: none; 
+            cursor: pointer;
+            z-index: 1001; 
+        }
+
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: #333;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .site-footer {
+            width: 100%;
+            background-color: #4338CA; 
+            color: white;
+            padding: 40px 5%;
+            margin-top: auto; 
+        }
+        
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin: 0 auto 30px auto;
+        }
+
+        .footer-section {
+            width: calc(25% - 20px); 
+            min-width: 200px; 
+            margin-bottom: 20px;
+        }
+
+        .footer-logo {
+            width: 380px;
+            margin-bottom: 14px;
+        }
+
+        .tagline {
+            font-size: 16px;
+            color: white; 
+            margin-bottom: 15px;
+            font-weight: 10;  
+        }
+
+        .footer-section h4 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #FCD34D; 
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {  
+            margin-bottom: 8px;
+            position: relative; 
+        }
+
+        .footer-links li a {
+            color: #e5e5e5;
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.3s ease;
+            line-height: 1.5;
+            position: relative;
+            z-index: 2; 
+        }
+        
+        .footer-links li::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #FCD34D;
+            transition: width 0.3s ease-out, opacity 0.3s ease;
+            opacity: 0.8;
+            z-index: 1; 
+        }
+
+        .footer-links li:hover::before {
+            width: 45%;
+        }
+
+        .footer-links a:hover {
+            color: #FCD34D;
+        }
+
+        .footer-contact p {
+            color: #e5e5e5;
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.3s ease;
+            line-height: 1.5; 
+            margin-bottom: 12px; 
+        }
+
+        .footer-contact p i {
+            margin-right: 20px;
+            color: #FCD34D;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 18px;
+            margin-right: 15px;
+            transition: color 0.3s ease, transform 0.3s ease-in-out; 
+        }
+
+        .social-links a:hover {
+            color: #FCD34D;
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        /* Footer Bottom Section (Copyright/Legal) */
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .footer-bottom p {
+            margin-bottom: 10px;
+        }
+
+        .legal-links a {
+            color: #a8a29e;
+            text-decoration: none;
+            margin: 0 5px;
+            transition: color 0.3s ease;
+        }
+
+        .legal-links a:hover {
+            color: #fff;
+        }
+
+        @media (max-width: 900px) {
+            .footer-section {
+                width: calc(50% - 20px); 
+                min-width: 45%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-header {
+                padding: 15px 20px;
+            }
+            
+            .hamburger-icon {
+                display: block; 
+            }
+
+            .navbar {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: #fff;
+                border-radius: 0;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); 
+                padding: 0;
+                margin-left: 0; 
+                transform: translateY(-100%); 
+                transition: transform 0.3s ease-in-out;
+                flex-direction: column;
+            }
+
+            #menu-toggle:checked ~ .navbar {
+                transform: translateY(0); 
+            }
+
+            .navbar ul {
+                flex-direction: column; 
+                padding: 10px 0px;
+            }
+
+            .navbar ul li {
+                margin: 0;
+                padding: 10px 0;
+                width: 100%;
+                text-align: center;
+                border-bottom: 1px solid #eee;
+            }
+            
+            .navbar ul li a {
+            white-space: normal; 
+            }     
+            
+            .navbar ul li::after,
+            .navbar ul li:hover::after {
+                content: none;
+            }
+            
+            #menu-toggle:checked + .hamburger-icon .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+            #menu-toggle:checked + .hamburger-icon .bar:nth-child(2) {
+                opacity: 0;
+            }
+            #menu-toggle:checked + .hamburger-icon .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+            .alumni-banner {
+                padding: 40px 20px; /* Adjust padding for mobile */
+            }
+        }
+        
+        @media (max-width: 550px) {
+            .footer-section {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .footer-brand {
+                margin-bottom: 30px;
+            }
+            
+            .social-links {
+                text-align: center;
+            }
+
+            .footer-links li:hover::before {
+            width: 100%;
+            }
+
+            .footer-links a:hover {
+            color: #FCD34D;
+            }
+
+            .footer-contact p {
+                justify-content: center;
+                display: flex;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="logo">
+            <a href="#home">St.Mary's Group</a>
+        </div>
+        
+        <input type="checkbox" id="menu-toggle">
+
+        <label for="menu-toggle" class="hamburger-icon" aria-label="Toggle navigation menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </label>
+
+        <nav class="navbar">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Courses</a></li>
+                <li><a href="#">Gallery</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Alumni</a></li>
+                <li><a href="#">Activity</a></li> 
+                <li><a href="#">Innovus Hub</a></li> 
+                <li><a href="#">Contact</a></li>
+                <div id="contact"></div>
+            </ul> 
+        </nav> 
+    </header> 
+    
+    <section class="alumni-banner">
+        <h1>Notable Alumni</h1>
+    </section>
+
+    <main class="content-container">
+        <h2 class="section-title slide-up-hidden">Notable Alumni</h2>
+        
+        <p class="intro-text slide-up-hidden">
+            The alumni of the Institution have made significant strides in various fields, showcasing the institution's commitment to producing outstanding professionals. Among them are:
+        </p>
+
+        <div class="alumnus-item slide-up-hidden">
+            <ul>
+                <li>Mr. S Vidya Sagar Naidu, IPS, graduated with a Bachelor of Technology (B.Tech) degree in Computer Science and Engineering (CSE) in 2013. He currently 
+                Superintendent of Police (SP) in Parvathipuram Manyam District, Andhra Pradesh.</li>
+                <li>Mr. K. Surya Prakash Reddy is the Founder and Director of SMS Consultant, located in Hyderabad.</li>
+                <li>Mr. Shaik Adil Zama is the Founder and Director of CODEKINDLE Solutions Pvt. Ltd, based in Hyderabad.</li>
+                <li>Mr. Katha Manohar is the Founder of Digital Intellects, a company situated in Hyderabad.</li>
+                <li>Mr. Sohail Mohd holds the position of Senior Product Manager at GSS in Hyderabad.</li>
+            </ul>
+        </div>
+    </main>
+
+    <footer class="site-footer fade-in-left-hidden"> 
+        <div class="footer-container">
+            <div class="footer-section footer-brand">
+                <img src="https://lh3.googleusercontent.com/d/1948UXpRMGGxai-y405X0df2oa7A5IYfG" alt="St.Mary's Group Logo" class="footer-logo">
+                <p class="tagline" style="font-family: Arial, Helvetica, sans-serif;">We create an atmosphere for you to enjoy your learning and upgrade your skills to meet and exceed in the academics and also be a responsible citizen of our nation.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/smgoi.in" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://wa.me/919154844272" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://www.instagram.com/smgoi.in/" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Youtube"><i class="fab fa-youtube"></i></a> 
+                </div>
+            </div>
+
+            <div class="footer-section footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Affiliations</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Enquire now</a></li>
+                    <li><a href="#">Alumini</a></li>
+                    <li><a href="#">Gallery</a></li>
+                    <li><a href="#">Campus Calendar</a></li>
+                    <li><a href="#">Innovus Hub</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section footer-contact">
+                <h4>Contact Us</h4>
+                <p><i class="fas fa-map-marker-alt"></i> Deshmukhi Village, Hyderabad</p>
+                <p><i class="fas fa-envelope"></i> enquiry@stmarysgroup.com</p> 
+                <p><i class="fas fa-phone"></i> +91 90104 55590/91/92</p>
+                <p><i class="fas fa-admissions"></i>For Admissions: 91548 44272</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2025 St.Mary's Group of Institutions. All rights reserved.</p>
+            <div class="legal-links">
+                <a href="#">Privacy Policy</a> |
+                <a href="#">Terms of Use</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Elements for the new 'slide-up' animation
+            const animatedElements = document.querySelectorAll('.slide-up-hidden');
+
+            // Elements for the existing 'fade-in-left' animation
+            const footer = document.querySelector('.fade-in-left-hidden');
+            
+            // Set up the Intersection Observer options
+            const options = {
+                root: null, 
+                rootMargin: '0px',
+                threshold: 0.1 
+            };
+
+            // Create a new Intersection Observer
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Logic for both animation types
+                        if (entry.target.classList.contains('fade-in-left-hidden')) {
+                             entry.target.classList.add('fade-in-left-visible');
+                        } else if (entry.target.classList.contains('slide-up-hidden')) {
+                            entry.target.classList.add('slide-up-visible');
+                        }
+                        
+                        // Stop observing once the animation has been triggered
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, options);
+
+            // 1. Start observing the footer element (Existing logic)
+            observer.observe(footer);
+            
+            // 2. Start observing the alumni section elements (NEW logic)
+            animatedElements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>
