@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>St. Mary's Group of Institutions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            /* Using a more professional font stack */
+            font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif; 
+        }
+
+        body {
+            background-color: white; 
+            display: flex;
+            flex-direction: column; 
+            justify-content: flex-start;
+            align-items: center; 
+            min-height: 100vh;
+            padding-top: 80px; 
+            color: #333; /* Dark gray for main body text */
+            overflow-x: hidden; /* Prevent horizontal scroll due to animations */
+        }
+
+        /* --- Animation Classes (New) --- */
+        .animated {
+            opacity: 0;
+            transition: opacity 1s ease-out, transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smooth cubic-bezier */
+        }
+        
+        .fade-in-left {
+            transform: translateX(-50px);
+        }
+        .fade-in-right {
+            transform: translateX(50px);
+        }
+        .fade-in-up {
+            transform: translateY(30px);
+        }
+        .visible {
+            opacity: 1;
+            transform: translate(0, 0);
+        }
+        /* --- End Animation Classes --- */
+
+
+        /* --- Header/Navbar (Original Styles Maintained) --- */
+        .main-header {
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            position: fixed; 
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 30px; 
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .logo a {
+            font-size: 24px; 
+            font-weight: bold;
+            color: #4338CA;
+            text-decoration: none;
+            margin-right: auto; 
+        }
+        
+        #menu-toggle {
+            display: none;
+        }
+
+        /* --- Desktop Navbar Styles (Default) --- */
+        .navbar {
+            background: #fff;
+            border-radius: 50px;
+            padding: 10px 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+            transition: all 0.3s ease;
+            margin-left: 20px; 
+        }
+
+        .navbar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex; 
+            align-items: center;
+        }
+
+        .navbar ul li {
+            list-style: none;
+            padding: 0;
+            margin: 0 15px; 
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+        }
+
+        .navbar ul li a {
+            text-decoration: none; 
+            color: black; 
+            font-weight: 500;
+            font-size: 15px;
+            display: block;
+            padding: 5px 0;
+            transition: color 0.3s ease;
+            white-space: nowrap; 
+        }
+        
+        .navbar ul li:hover a {
+            color: #FCD34D;
+        }
+
+        /* Slide-in Effect (Bubble/Background) */
+        .navbar ul li::after {
+            content: '';
+            display: block;
+            height: 100%;
+            width: 100%;
+            border-radius: 70px;
+            background: #4338CA;
+            position: absolute;
+            top: 100%; 
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            opacity: 0;
+            transition: top 0.5s, opacity 0.5s, width 0.5s, height 0.5s;
+        }
+
+        .navbar ul li:hover::after {
+            top: 50%;
+            width: 135%; 
+            height: 135%;
+            opacity: 1;
+        }
+        /* ------------------------------------- */
+
+        /* Hamburger Icon/Label */
+        .hamburger-icon {
+            display: none; /* Hide by default for desktop */
+            cursor: pointer;
+            z-index: 1001; 
+        }
+
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: #333;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .content-section {
+            width: 100%;
+            padding: 60px 5%; 
+            transition: background-color 0.3s ease;
+            text-align: center;
+        }
+
+        .bg-light {
+            background-color: #f8f8f8; 
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .section-title {
+            font-size: 36px;
+            color: #4338CA; 
+            margin-bottom: 20px;
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background-color: #FCD34D; 
+            margin: 10px auto 0;
+        }
+
+        .section-container p {
+            font-size: 17px;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 25px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .white-text {
+            color: #fff !important;
+        }
+
+        /* --- Hero Section --- */
+        .hero-section {
+        width: 100%;
+        height: 70vh;
+        /* UPDATED: Add the uploaded image as a background */
+        background-image: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url('https://lh3.googleusercontent.com/d/1zIcQZMQPAv-n4hjWqITDuT8pArkUrj4e');
+        background-size: cover;
+        background-position: center 30%; 
+        background-repeat: no-repeat;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white; 
+        text-align: center;
+        padding: 0 20px;
+        }
+
+        .hero-content h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            letter-spacing: 1.5px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInText 1s ease-out 0.5s forwards;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Enhanced shadow for visibility */
+            color: white; 
+        }
+        
+        @keyframes fadeInText {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-content h2 {
+            font-size: 20px;
+            margin-bottom: 25px;
+            color: #f1f1f1;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Call to Action Button */
+        .cta-button {
+            display: inline-block;
+            background-color: #FCD34D; /* Tertiary color */
+            color: #4338CA; /* Secondary color for text */
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Enhanced transition */
+            border: 2px solid #FCD34D;
+        }
+
+        .cta-button:hover {
+            background-color: #4338CA;
+            color: #FCD34D;
+            border-color: #FCD34D;
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 5px 15px rgba(252, 211, 77, 0.4); /* Subtle glow effect */
+        }
+
+        /* --- About Section --- */
+        .about-flex {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            text-align: left;
+        }
+
+        .about-text, .about-image {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-secondary {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            border: 2px solid #4338CA;
+            color: #4338CA;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: #4338CA;
+            color: white;
+            transform: translateY(-1px);
+        }
+        
+        /* --- ERP Analytics (Unique Selling Point) Section --- */
+        .erp-analytics-area {
+            background-color: #4338CA; /* Secondary color background */
+            color: white;
+            padding: 50px 5%;
+            text-align: center;
+            width: 100%;
+        }
+
+        .unique-selling-point {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .unique-selling-point h2 {
+            font-size: 32px !important;
+            margin-bottom: 15px;
+            font-weight: 700;
+            color: #FCD34D !important; /* Tertiary color for emphasis */
+        }
+
+        .unique-selling-point p {
+            font-size: 18px;
+            line-height: 1.5;
+            color: #e5e5e5;
+            margin-bottom: 25px;
+        }
+
+        .brochure-btn {
+        display: inline-block;
+        background-color: white;
+        color: #4338CA; 
+        padding: 11px 28px;
+        font-size: 14px;
+        font-weight: bold;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: all 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+        border: 2px solid white;
+        }
+
+        .brochure-btn:hover {
+            background-color: #FCD34D;
+            color: #4338CA;
+            border-color: #FCD34D;
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        /* --- Success Metrics Container (Two Columns) --- */
+        .success-metrics-container {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 5%;
+            gap: 40px;
+            text-align: left;
+        }
+
+        .success-metrics-container .container {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: box-shadow 0.3s ease; /* Added for hover */
+        }
+        
+        .success-metrics-container .container:hover {
+            box-shadow: 0 8px 25px rgba(67, 56, 202, 0.15); /* Slight lift on hover */
+        }
+        
+        .success-metrics-container img {
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+
+        .success-metrics-container h3 {
+            color: #4338CA;
+            font-size: 22px;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #FCD34D; /* Attention-grabbing detail */
+            padding-left: 10px;
+        }
+
+        .success-metrics-container p {
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .success-metrics-container ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .success-metrics-container ul li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 10px;
+            font-size: 15px;
+            color: #333;
+        }
+
+        .success-metrics-container ul li::before {
+            content: '\f058'; /* Font Awesome checkmark icon */
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            color: #FCD34D; 
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        /* --- Corporate in Campus Section --- */
+        .corporate-campus {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 5%;
+            text-align: left;
+        }
+
+        .corp-content {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .corp-content h2 {
+            color: #4338CA;
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .corp-content p {
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .corp-image {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .corp-image img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .know-more-btn {
+            display: inline-block;
+            background-color: #4338CA;
+            color: white;
+            padding: 10px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        
+        .know-more-btn:hover {
+            background-color: #352a9e;
+            transform: translateY(-4px);
+        }
+
+        /* --- Academics/Course Grid --- */
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .course-card {
+            background: #fff;
+            padding: 30px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 5px solid #FCD34D; /* Subtle, simple accent */
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(67, 56, 202, 0.2); /* Shadow with secondary color */
+        }
+
+        .icon-placeholder {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: #4338CA; 
+        }
+
+        .course-card h3 {
+            font-size: 20px;
+            color: #4338CA;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .course-card p {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 20px;
+            height: 75px; /* Fixed height for consistent card size */
+            overflow: hidden;
+        }
+
+        .btn-course-details {
+            display: inline-block;
+            color: #FCD34D;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            border-bottom: 2px solid #FCD34D;
+            padding-bottom: 3px;
+        }
+
+        .btn-course-details:hover {
+            color: #4338CA;
+            border-color: #4338CA;
+        }
+
+        .admissions-cta-banner {
+            background-color: #4338CA;
+            padding: 80px 5%;
+        }
+
+        .cta-button-inverted {
+            display: inline-block;
+            background-color: white;
+            color: #4338CA; 
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+            border: 2px solid white;
+        }
+
+        .cta-button-inverted:hover {
+            background-color: #FCD34D;
+            color: #4338CA;
+            border-color: #FCD34D;
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.4);
+        }
+        
+        .cta-button-small {
+            display: inline-block;
+            margin-top: 30px;
+            background-color: #4338CA;
+            color: white;
+            padding: 10px 25px;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        
+        .cta-button-small:hover {
+            background-color: #FCD34D;
+            color: #4338CA;
+            transform: translateY(-1px);
+        }
+        
+        /* Image place holder styling for non-course cards */
+        .content-section img:not(.footer-logo, .success-metrics-container img, .corp-image img) {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* --- Footer Styles (Original/Enhanced) --- */
+        .site-footer {
+            width: 100%;
+            background-color: #4338CA; 
+            color: white;
+            padding: 40px 5%;
+            margin-top: auto; 
+        }
+
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto 30px auto;
+        }
+
+        .footer-section {
+            width: calc(25% - 20px); 
+            min-width: 200px; 
+            margin-bottom: 20px;
+        }
+        
+        .footer-logo {
+            width: 100%;
+            max-width: 250px; 
+            height: auto;
+            margin-bottom: 14px;
+        }
+
+        .tagline {
+            font-size: 15px;
+            color: white; 
+            margin-bottom: 20px;
+            font-weight: 300; 
+            line-height: 1.6;
+        }
+
+        .footer-section h4 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #FCD34D; 
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li a {
+            color: #e5e5e5;
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.3s ease;
+            line-height: 1.5;
+            position: relative;
+            z-index: 2; 
+        }
+        
+        .footer-links li::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #FCD34D;
+            transition: width 0.3s ease-out, opacity 0.3s ease;
+            opacity: 0.8;
+            z-index: 1; 
+        }
+
+        .footer-links li:hover::before {
+            width: 100%;
+        }
+
+        .footer-links a:hover {
+            color: #FCD34D;
+        }
+
+        .footer-contact p {
+            color: #e5e5e5;
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.3s ease;
+            line-height: 1.7; 
+            margin-bottom: 12px; 
+            display: flex;
+            align-items: center;
+            text-align: left;
+        }
+
+        .footer-contact p i {
+            margin-right: 15px;
+            color: #FCD34D;
+            font-size: 16px;
+            width: 20px;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 20px;
+            margin-right: 18px;
+            transition: color 0.3s ease, transform 0.3s ease-in-out; 
+        }
+
+        .social-links a:hover {
+            color: #FCD34D;
+            transform: scale(1.2);
+        }
+
+        /* Footer Bottom Section (Copyright/Legal) */
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #a8a29e;
+        }
+
+        .footer-bottom p {
+            margin-bottom: 10px;
+        }
+
+        .legal-links a {
+            color: #a8a29e;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .legal-links a:hover {
+            color: #fff;
+        }
+
+
+        /* --- Responsive Design --- */
+        @media (max-width: 900px) {
+            /* Footer: switch to two columns */
+            .footer-section {
+                width: calc(50% - 20px); 
+                min-width: 45%;
+                text-align: left;
+            }
+            
+            .footer-brand {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .footer-brand .social-links {
+                text-align: center;
+            }
+            
+            .about-flex, .corporate-campus {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .about-text, .corp-content {
+                order: 2;
+            }
+            
+            .about-image, .corp-image {
+                order: 1;
+                margin-bottom: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            
+            /* Header: Mobile styles */
+            .main-header {
+                padding: 15px 20px;
+            }
+            
+            .hamburger-icon {
+                display: block; 
+            }
+
+            .navbar {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: #fff;
+                border-radius: 0;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); 
+                padding: 0;
+                margin-left: 0; 
+                transform: translateY(-100%); 
+                transition: transform 0.3s ease-in-out;
+                flex-direction: column;
+            }
+
+            #menu-toggle:checked ~ .navbar {
+                transform: translateY(0); 
+            }
+
+            .navbar ul {
+                flex-direction: column; 
+                padding: 10px 0px;
+            }
+
+            .navbar ul li {
+                margin: 0;
+                padding: 10px 0;
+                width: 100%;
+                text-align: center;
+                border-bottom: 1px solid #eee;
+            }
+            
+            .navbar ul li a {
+            white-space: normal; 
+            }     
+            
+            .navbar ul li::after,
+            .navbar ul li:hover::after {
+                content: none;
+            }
+            
+            /* Hamburger Animation */
+            #menu-toggle:checked + .hamburger-icon .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+            #menu-toggle:checked + .hamburger-icon .bar:nth-child(2) {
+                opacity: 0;
+            }
+            #menu-toggle:checked + .hamburger-icon .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+            
+            .success-metrics-container {
+                flex-direction: column;
+            }
+            
+            .success-metrics-container .container {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 550px) {
+            /* Footer: switch to single column stacking */
+            .footer-section {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .footer-brand {
+                margin-bottom: 30px;
+            }
+            
+            .footer-links ul {
+                text-align: center;
+                padding-bottom: 20px;
+            }
+            
+            .footer-links li::before {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .footer-links li:hover::before {
+                width: 80%;
+            }
+            
+            .footer-contact p {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="logo">
+            <a href="#home">St.Mary's Group</a>
+        </div>
+        
+        <input type="checkbox" id="menu-toggle">
+
+        <label for="menu-toggle" class="hamburger-icon" aria-label="Toggle navigation menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </label>
+
+        <nav class="navbar">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Courses</a></li>
+                <li><a href="#">Gallery</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Alumni</a></li>
+                <li><a href="#">Activity</a></li> 
+                <li><a href="#">Innovus Hub</a></li> 
+                <li><a href="#">Contact</a></li>
+                <div id="contact"></div>
+            </ul> 
+        </nav>
+    </header>
+        
+    <section class="hero-section" id="home">
+        <div class="hero-content">
+           <h1>WELCOME TO ST.MARY'S GROUP!</h1>
+           <h2 class="animated fade-in-up">FOSTERING THE FUTURE OF INNOVATION</h2>
+            <a href="#academics" class="cta-button animated fade-in-up">EXPLORE PROGRAMS</a>
+        </div>
+    </section>
+
+    <section class="about-section content-section" id="about">
+        <div class="section-container">
+            <h2 class="section-title animated fade-in-up">A Decade of Educational Excellence</h2>
+            <div class="about-flex">
+                <div class="about-text animated fade-in-left">
+                    <p>Since its founding, St.Mary's Group has been a beacon of higher learning. Our commitment to "interdisciplinary studies" and "practical application" ensures our graduates are not just job-ready, but industry leaders.</p>
+                    <p>We pride ourselves on a vibrant campus culture, world-class faculty, and state-of-the-art research facilities. Join a community that values curiosity, integrity, and global citizenship.</p>
+                    <a href="https://en.wikipedia.org/wiki/St._Mary%27s_College_of_Engineering_and_Technology" class="btn-secondary animated fade-in-left">Read Our Full History</a>
+                </div>
+                <div class="about-image animated fade-in-right">
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="erp-analytics-area">
+        <div class="unique-selling-point">
+            <h2 class="animated fade-in-up">What Sets Us Apart</h2>
+            <p class="animated fade-in-up">Welcome to St. Mary's College, where your educational journey goes beyond traditional learning. Our approach sets us apart, transforming students into inspiring leaders as they learn with us. What makes our B.Tech course at St. Mary's Group of institutions truly unique and transformative?</p>
+        </div>
+        <div>
+            <a href="https://lh3.googleusercontent.com/d/1OAzdeS0WA0Y6Q4wrWK-2oV8Az6Np615t" class="brochure-btn animated fade-in-up">DOWNLOAD BROCHURE</a>
+        </div>
+    </section>
+
+    <section class="success-metrics-container">
+        <div class="container left-container animated fade-in-left">
+            
+            <h3>Elevate your future: Academic Excellence Meets Industry Recognition!</h3>
+            <p>At St. Mary's, we redefine education by blending academic brilliance with real-world exposure. As a UGC-granted autonomous institution with NAAC 'A' accreditation, we offer unparalleled flexibility, industry-aligned curriculum, and a globally recognized education. With a track record of 100% admissions and award-winning academic excellence, we create future-ready professionals equipped to thrive in a competitive world. Our strong industry collaborations and hands-on training ensure that every student graduates with not just a degree but with valuable experience and a pathway to success.</p>
+            <ul>
+                <li>UGC-Granted Autonomous Status</li>
+                <li>NAAC 'A' Grade Accredited & ISO 9001:2015 Certified</li>
+                <li>Awarded Two Gold Medals by JNTUH University</li>
+                <li>100% Admissions Record</li>
+                <li>Industry-Recognized & Globally Connected</li>
+                <li>Your Degree + 3 Years of Real-World Experience</li>
+                <li>Industry Collaboration and Career Development</li>
+                <li>Social Responsibility and Community Engagement</li>
+                <li>Continuous Improvement and Innovation</li>
+                <li>Active student clubs, leadership programs, and vibrant campus life</li>
+            </ul>
+        </div>
+        <div class="container right-container animated fade-in-right">
+            
+            <h3>Placements & Alumni Success</h3>
+            <p>Your success story starts here—where ambition meets opportunity. With a proven track record in placements and a global network of distinguished alumni, we ensure your transition from student to professional is remarkable and seamless.</p>
+            <h3>From Classroom to Boardroom - Transform Your Ambitions Into Achievements!</h3>
+
+            <h3>Top Placements:</h3>
+
+            <ul>
+                <li>Highest Package: 48 LPA (Provet Constructions, UK-based MNC) </li>
+                <li>90% of offer letters were received for every 100 students who appeared for placements </li>
+                <li>895 offers for 2024 graduates and counting! </li>
+                <li>Top Recruiters: TCS, Wipro, Infosys, HCL, TuringMinds, Planet Spark & more </li>
+            </ul>
+
+            <h3>Our Alumni - Trailblazers Globally!</h3>
+            
+            <ul>
+                <li>Leaders in Fortune 500 companies, innovative startups, and Indian civil services.</li>
+                <li>Entrepreneurship Development Cell (EDC): Turning student ideas into thriving startups. </li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="corporate-campus">
+        <div class="corp-content animated fade-in-left">
+            <h2>Corporate in Campus</h2>         
+            <p>
+              We offer a range of courses with specialized areas and can offer blended learning opportunities to best meet your career needs. If sitting in a room with a faculty and having the opportunity for discussion with other learners sounds good to you then St.Mary’s is the right place for you. We create an atmosphere for you to enjoy your learning and upgrade your skills to meet and exceed in the academics and also be a responsible citizen of our nation.
+            </p>
+            <a href="#" class="know-more-btn animated fade-in-left">Know More</a>
+        </div>
+        <div class="corp-image animated fade-in-right">
+            <img src="https://lh3.googleusercontent.com/d/1yEWjnjZ0htaIwtaowzgsVpkKYd4TZUWc" alt="Students collaborating in a modern classroom ">
+        </div>
+    </section>
+
+    <section class="academics-section content-section bg-light" id="academics">
+        <div class="section-container">
+            <h2 class="section-title animated fade-in-up">High-Demand Courses</h2>
+            
+            <div class="course-grid">
+                
+                <div class="course-card animated fade-in-up">
+                    <div class="icon-placeholder">💻</div>
+                    <h3>B.Tech CSE</h3>
+                    <p>Learn to build Applications for mobile and web from scratch and implement your learning in leading tech companies.</p>
+                    <a href="https://www.google.com/search?q=B.Tech+CSE" class="btn-course-details">View Details</a>
+                </div>
+                
+                <div class="course-card animated fade-in-up">
+                    <div class="icon-placeholder">🧠</div>
+                    <h3>B.Tech CSE - AI/ML</h3>
+                    <p>Develop a strong foundation in "Computer Science" and apply the knowledge of AI/ML towards practical applications.</p>
+                    <a href="https://www.google.com/search?q=b.tech+cse+ai+and+ml" class="btn-course-details">View Details</a>
+                </div>
+                
+                <div class="course-card animated fade-in-up">
+                    <div class="icon-placeholder">📊</div>
+                    <h3>AI & DS</h3>
+                    <p>Become a "Data Engineer & Analyst" to prepare data for analytical or operational uses, solving real-world business problems.</p>
+                    <a href="https://www.google.com/search?q=b.tech+ai+and+ds" class="btn-course-details">View Details</a>
+                </div>
+                
+                <div class="course-card animated fade-in-up">
+                    <div class="icon-placeholder">💡</div>
+                    <h3>Diploma ES</h3>
+                    <p>Create "innovative solutions" for technical challenges across a wide variety of products for mobile & web interfaces.</p>
+                    <a href="https://www.google.com/search?q=Diploma+in+ES" class="btn-course-details">View Details</a>
+                </div>
+                
+                <div class="course-card animated fade-in-up">
+                    <div class="icon-placeholder">🌐</div>
+                    <h3>Diploma - CSE</h3>
+                    <p>Advance your career in "Mobile & Web Development" with a focused curriculum and hands-on projects.</p>
+                    <a href="https://www.google.com/search?q=Diploma+in+CSE" class="btn-course-details">View Details</a>
+                </div>
+                
+                <div class="course-card animated fade-in-up">
+                    <div class="icon-placeholder">💊</div>
+                    <h3>B.Pharmacy</h3>
+                    <p>"B. Pharma" has a really big role in researching and testing drugs before they are available for consumer treatment.</p>
+                    <a href="https://www.google.com/search?q=b.pharm" class="btn-course-details">View Details</a>
+                </div>
+
+            </div>
+            
+            <div class="academics-cta text-center">
+                <a href="#admissions" class="cta-button-small animated fade-in-up">APPLY FOR ADMISSIONS NOW</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section" id="gallery">
+        <div class="section-container text-center">
+            <h2 class="section-title animated fade-in-up">Campus Gallery</h2>
+            <p class="animated fade-in-up">A visual tour of our facilities, student life, and achievements.</p>
+            
+        </div>
+    </section>
+    
+    <section class="content-section bg-light" id="events">
+        <div class="section-container text-center">
+            <h2 class="section-title animated fade-in-up">Upcoming Events</h2>
+            <p class="animated fade-in-up">Check out our academic calendar and cultural festivals.</p>
+            
+        </div>
+    </section>
+    
+    <section class="content-section" id="activity">
+        <div class="section-container text-center">
+            <h2 class="section-title animated fade-in-up">Student Activities</h2>
+            <p class="animated fade-in-up">Clubs, sports, and community engagement initiatives.</p>
+            
+        </div>
+    </section>
+
+    <section class="admissions-cta-banner" id="admissions">
+        <div class="section-container text-center">
+            <h2 class="section-title white-text animated fade-in-up">Your Future Starts Now.</h2>
+            <p class="white-text animated fade-in-up">Applications for the next academic year are open. Don't miss your chance.</p>
+            <a href="contact" class="cta-button-inverted animated fade-in-up">APPLY TODAY</a>
+        </div>
+    </section>
+    
+    <footer class="site-footer animated fade-in-up"> 
+        <div class="footer-container">
+            <div class="footer-section footer-brand">
+                <img src="https://lh3.googleusercontent.com/d/1948UXpRMGGxai-y405X0df2oa7A5IYfG" alt="St.Mary's Group Logo" class="footer-logo">
+                <p class="tagline">We create an atmosphere for you to enjoy your learning and upgrade your skills to meet and exceed in the academics and also be a responsible citizen of our nation.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/smgoi.in" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://wa.me/919154844272" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://www.instagram.com/smgoi.in/" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Youtube"><i class="fab fa-youtube"></i></a> 
+                </div>
+            </div>
+
+            <div class="footer-section footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Affiliations</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Enquire now</a></li>
+                    <li><a href="#">Alumini</a></li>
+                    <li><a href="#">Gallery</a></li>
+                    <li><a href="#">Campus Calendar</a></li>
+                    <li><a href="#">Innovus Hub</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section footer-contact">
+                <h4>Contact Us</h4>
+                <p><i class="fas fa-map-marker-alt"></i> Deshmukhi Village, Hyderabad</p>
+                <p><i class="fas fa-envelope"></i> enquiry@stmarysgroup.com</p> 
+                <p><i class="fas fa-phone"></i> +91 90104 55590/91/92</p>
+                <p><i class="fas fa-admissions"></i>For Admissions: 91548 44272</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2025 St.Mary's Group of Institutions. All rights reserved.</p>
+            <div class="legal-links">
+                <a href="#">Privacy Policy</a> |
+                <a href="#">Terms of Use</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const elements = document.querySelectorAll('.animated');
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1 // Trigger when 10% of the item is visible
+            });
+
+            elements.forEach(el => {
+                observer.observe(el);
+            });
+            
+            // Special handling for Hero CTA button visibility (optional: ensures it appears even if JS fails)
+            const heroCta = document.querySelector('.hero-content .cta-button');
+            if(heroCta) {
+                 heroCta.classList.add('visible');
+            }
+        });
+    </script>
+</body>
+</html>
